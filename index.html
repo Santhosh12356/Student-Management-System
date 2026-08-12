@@ -19,25 +19,130 @@ body {
     color: #1f2937;
 }
 
-header {
+/* LOGIN */
+
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #2563eb;
-    color: white;
-    padding: 25px 20px;
+    padding: 20px;
+}
+
+.login-box {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     text-align: center;
 }
 
-header h1 {
-    font-size: 28px;
+.login-box h1 {
+    margin-bottom: 10px;
 }
 
-header p {
-    margin-top: 8px;
+.login-box p {
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.login-btn {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-btn:hover {
+    background: #1d4ed8;
+}
+
+#errorMessage {
+    color: #dc2626;
+    margin-top: 15px;
+    display: none;
+}
+
+/* APP */
+
+#app {
+    display: none;
+}
+
+header {
+    background: #2563eb;
+    color: white;
+    padding: 22px;
+}
+
+.header-content {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+header h1 {
+    font-size: 26px;
+}
+
+.logout-btn {
+    background: white;
+    color: #2563eb;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 30px auto;
     padding: 0 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.stat h3 {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.stat p {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #2563eb;
 }
 
 .card {
@@ -65,38 +170,31 @@ input {
     font-size: 15px;
 }
 
-button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 14px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
 .add-btn {
     background: #2563eb;
     color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    cursor: pointer;
 }
 
 .update-btn {
     background: #16a34a;
     color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    cursor: pointer;
 }
 
 .cancel-btn {
     background: #6b7280;
     color: white;
-}
-
-.edit-btn {
-    background: #f59e0b;
-    color: white;
-    margin-right: 5px;
-}
-
-.delete-btn {
-    background: #ef4444;
-    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 
 .search {
@@ -123,36 +221,45 @@ th {
     background: #eff6ff;
 }
 
+.edit-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.export-btn {
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+}
+
 .empty {
     text-align: center;
     padding: 30px;
     color: #6b7280;
 }
 
-.stats {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.stat {
-    flex: 1;
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-.stat h3 {
-    color: #6b7280;
-    font-size: 14px;
-}
-
-.stat p {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 8px;
-    color: #2563eb;
+.dept-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #eff6ff;
+    border-radius: 8px;
 }
 
 footer {
@@ -163,16 +270,21 @@ footer {
 
 @media (max-width: 700px) {
 
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
     .form {
         grid-template-columns: 1fr;
     }
 
-    .stats {
+    .header-content {
         flex-direction: column;
+        text-align: center;
     }
 
     header h1 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     th, td {
@@ -184,30 +296,111 @@ footer {
 
 <body>
 
+<!-- LOGIN PAGE -->
+
+<div id="loginPage">
+
+    <div class="login-box">
+
+        <h1>🔐 Admin Login</h1>
+
+        <p>Student Management System</p>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Username">
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password">
+
+        <button
+            class="login-btn"
+            onclick="login()">
+            Login
+        </button>
+
+        <p id="errorMessage">
+            Invalid username or password
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN APPLICATION -->
+
+<div id="app">
+
 <header>
-    <h1>🎓 Student Management System</h1>
-    <p>Manage student records easily</p>
+
+    <div class="header-content">
+
+        <div>
+            <h1>🎓 Student Management System</h1>
+            <p>Admin Dashboard</p>
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
 </header>
 
+
 <div class="container">
+
+    <!-- STATISTICS -->
 
     <div class="stats">
 
         <div class="stat">
+
             <h3>Total Students</h3>
-            <p id="totalStudents">0</p>
+
+            <p id="totalStudents">
+                0
+            </p>
+
         </div>
 
+
         <div class="stat">
+
+            <h3>Total Departments</h3>
+
+            <p id="totalDepartments">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
             <h3>System Status</h3>
+
             <p>Active</p>
+
         </div>
 
     </div>
 
+
+    <!-- ADD / EDIT -->
+
     <div class="card">
 
-        <h2 id="formTitle">➕ Add Student</h2>
+        <h2 id="formTitle">
+            ➕ Add Student
+        </h2>
 
         <div class="form">
 
@@ -247,13 +440,15 @@ footer {
 
     </div>
 
+
+    <!-- STUDENT TABLE -->
+
     <div class="card">
 
         <h2>📋 Student Records</h2>
 
         <input
             class="search"
-            type="text"
             id="search"
             placeholder="🔍 Search student..."
             onkeyup="displayStudents()">
@@ -263,12 +458,14 @@ footer {
             <table>
 
                 <thead>
+
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Department</th>
                         <th>Action</th>
                     </tr>
+
                 </thead>
 
                 <tbody id="studentTable"></tbody>
@@ -277,44 +474,127 @@ footer {
 
         </div>
 
-        <div id="emptyMessage" class="empty">
+        <div
+            id="emptyMessage"
+            class="empty">
+
             No students added yet.
+
         </div>
+
+    </div>
+
+
+    <!-- DEPARTMENT DASHBOARD -->
+
+    <div class="card">
+
+        <h2>📊 Department Dashboard</h2>
+
+        <div id="departmentStats"></div>
+
+        <br>
+
+        <button
+            class="export-btn"
+            onclick="exportCSV()">
+
+            📥 Export Student Data
+
+        </button>
 
     </div>
 
 </div>
 
+
 <footer>
+
     Student Management System © 2026
+
 </footer>
+
+</div>
+
 
 <script>
 
-let students = JSON.parse(
-    localStorage.getItem("students")
-) || [];
+let students =
+    JSON.parse(localStorage.getItem("students")) || [];
 
 let editingIndex = -1;
 
 
-/* SAVE / UPDATE STUDENT */
+/* LOGIN */
+
+function login() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+
+    if (
+        username === "admin" &&
+        password === "admin123"
+    ) {
+
+        document.getElementById("loginPage")
+            .style.display = "none";
+
+        document.getElementById("app")
+            .style.display = "block";
+
+        displayStudents();
+
+    }
+
+    else {
+
+        document.getElementById("errorMessage")
+            .style.display = "block";
+
+    }
+}
+
+
+/* LOGOUT */
+
+function logout() {
+
+    document.getElementById("app")
+        .style.display = "none";
+
+    document.getElementById("loginPage")
+        .style.display = "flex";
+
+    document.getElementById("username").value = "";
+
+    document.getElementById("password").value = "";
+
+}
+
+
+/* SAVE / UPDATE */
 
 function saveStudent() {
 
-    const id = document
-        .getElementById("studentId")
+    const id =
+        document.getElementById("studentId")
         .value.trim();
 
-    const name = document
-        .getElementById("studentName")
+    const name =
+        document.getElementById("studentName")
         .value.trim();
 
-    const dept = document
-        .getElementById("studentDept")
+    const dept =
+        document.getElementById("studentDept")
         .value.trim();
 
-    if (id === "" || name === "" || dept === "") {
+
+    if (!id || !name || !dept) {
 
         alert("Please enter all student details.");
 
@@ -322,45 +602,30 @@ function saveStudent() {
     }
 
 
-    /* UPDATE */
-
     if (editingIndex !== -1) {
 
         students[editingIndex] = {
-            id: id,
-            name: name,
-            dept: dept
+            id,
+            name,
+            dept
         };
 
         alert("Student updated successfully!");
 
-        editingIndex = -1;
-
-        document.getElementById("formTitle").textContent =
-            "➕ Add Student";
-
-        document.getElementById("mainButton").textContent =
-            "Add Student";
-
-        document.getElementById("mainButton").className =
-            "add-btn";
-
-        document.getElementById("cancelButton").style.display =
-            "none";
+        cancelEdit();
 
     }
-
-    /* ADD */
 
     else {
 
         students.push({
-            id: id,
-            name: name,
-            dept: dept
+            id,
+            name,
+            dept
         });
 
         alert("Student added successfully!");
+
     }
 
 
@@ -372,46 +637,44 @@ function saveStudent() {
     clearForm();
 
     displayStudents();
+
 }
 
 
-/* EDIT STUDENT */
+/* EDIT */
 
 function editStudent(index) {
 
-    const student = students[index];
+    const student =
+        students[index];
 
-    document.getElementById("studentId").value =
-        student.id;
+    document.getElementById("studentId")
+        .value = student.id;
 
-    document.getElementById("studentName").value =
-        student.name;
+    document.getElementById("studentName")
+        .value = student.name;
 
-    document.getElementById("studentDept").value =
-        student.dept;
+    document.getElementById("studentDept")
+        .value = student.dept;
 
     editingIndex = index;
 
-    document.getElementById("formTitle").textContent =
-        "✏️ Edit Student";
+    document.getElementById("formTitle")
+        .textContent = "✏️ Edit Student";
 
-    document.getElementById("mainButton").textContent =
-        "Update Student";
+    document.getElementById("mainButton")
+        .textContent = "Update Student";
 
-    document.getElementById("mainButton").className =
-        "update-btn";
+    document.getElementById("mainButton")
+        .className = "update-btn";
 
-    document.getElementById("cancelButton").style.display =
-        "inline-block";
+    document.getElementById("cancelButton")
+        .style.display = "inline-block";
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 }
 
 
-/* CANCEL EDIT */
+/* CANCEL */
 
 function cancelEdit() {
 
@@ -419,25 +682,30 @@ function cancelEdit() {
 
     clearForm();
 
-    document.getElementById("formTitle").textContent =
-        "➕ Add Student";
+    document.getElementById("formTitle")
+        .textContent = "➕ Add Student";
 
-    document.getElementById("mainButton").textContent =
-        "Add Student";
+    document.getElementById("mainButton")
+        .textContent = "Add Student";
 
-    document.getElementById("mainButton").className =
-        "add-btn";
+    document.getElementById("mainButton")
+        .className = "add-btn";
 
-    document.getElementById("cancelButton").style.display =
-        "none";
+    document.getElementById("cancelButton")
+        .style.display = "none";
+
 }
 
 
-/* DELETE STUDENT */
+/* DELETE */
 
 function deleteStudent(index) {
 
-    if (confirm("Are you sure you want to delete this student?")) {
+    if (
+        confirm(
+            "Are you sure you want to delete this student?"
+        )
+    ) {
 
         students.splice(index, 1);
 
@@ -447,18 +715,19 @@ function deleteStudent(index) {
         );
 
         displayStudents();
+
     }
 }
 
 
-/* DISPLAY STUDENTS */
+/* DISPLAY */
 
 function displayStudents() {
 
     const table =
         document.getElementById("studentTable");
 
-    const emptyMessage =
+    const empty =
         document.getElementById("emptyMessage");
 
     const search =
@@ -468,30 +737,56 @@ function displayStudents() {
 
     table.innerHTML = "";
 
-    const filteredStudents =
+
+    const filtered =
         students.filter(student =>
-            student.id.toLowerCase().includes(search) ||
-            student.name.toLowerCase().includes(search) ||
-            student.dept.toLowerCase().includes(search)
+
+            student.id
+                .toLowerCase()
+                .includes(search) ||
+
+            student.name
+                .toLowerCase()
+                .includes(search) ||
+
+            student.dept
+                .toLowerCase()
+                .includes(search)
+
         );
+
 
     document.getElementById("totalStudents")
         .textContent = students.length;
 
 
-    if (filteredStudents.length === 0) {
+    const departments =
+        new Set(
+            students.map(student =>
+                student.dept.toUpperCase()
+            )
+        );
 
-        emptyMessage.style.display = "block";
+    document.getElementById("totalDepartments")
+        .textContent = departments.size;
 
-        return;
+
+    if (filtered.length === 0) {
+
+        empty.style.display = "block";
+
     }
 
-    emptyMessage.style.display = "none";
+    else {
+
+        empty.style.display = "none";
+
+    }
 
 
-    filteredStudents.forEach(student => {
+    filtered.forEach(student => {
 
-        const originalIndex =
+        const index =
             students.indexOf(student);
 
         const row =
@@ -509,13 +804,13 @@ function displayStudents() {
 
                 <button
                     class="edit-btn"
-                    onclick="editStudent(${originalIndex})">
+                    onclick="editStudent(${index})">
                     Edit
                 </button>
 
                 <button
                     class="delete-btn"
-                    onclick="deleteStudent(${originalIndex})">
+                    onclick="deleteStudent(${index})">
                     Delete
                 </button>
 
@@ -525,39 +820,14 @@ function displayStudents() {
         table.appendChild(row);
 
     });
+
+
+    updateDepartmentStats();
+
 }
 
 
-/* CLEAR FORM */
-
-function clearForm() {
-
-    document.getElementById("studentId").value = "";
-
-    document.getElementById("studentName").value = "";
-
-    document.getElementById("studentDept").value = "";
-}
-
-
-/* INITIAL LOAD */
-
-displayStudents();
-
-</script>
-    <!-- Dashboard -->
-<div class="card">
-    <h2>📊 Department Dashboard</h2>
-    <div id="departmentStats"></div>
-
-    <br>
-
-    <button class="add-btn" onclick="exportCSV()">
-        📥 Export Student Data
-    </button>
-</div>
-
-<script>
+/* DEPARTMENT STATS */
 
 function updateDepartmentStats() {
 
@@ -565,59 +835,55 @@ function updateDepartmentStats() {
 
     students.forEach(student => {
 
-        const dept = student.dept.toUpperCase();
+        const dept =
+            student.dept.toUpperCase();
 
-        if (stats[dept]) {
-            stats[dept]++;
-        } else {
-            stats[dept] = 1;
-        }
+        stats[dept] =
+            (stats[dept] || 0) + 1;
 
     });
+
 
     const container =
         document.getElementById("departmentStats");
 
     container.innerHTML = "";
 
-    if (Object.keys(stats).length === 0) {
-
-        container.innerHTML =
-            "<p>No department data available.</p>";
-
-        return;
-    }
 
     for (const dept in stats) {
 
-        const item = document.createElement("div");
+        const item =
+            document.createElement("div");
 
-        item.style.padding = "12px";
-        item.style.marginBottom = "8px";
-        item.style.background = "#eff6ff";
-        item.style.borderRadius = "8px";
+        item.className =
+            "dept-item";
 
         item.innerHTML =
             `<strong>${dept}</strong> : ${stats[dept]} student(s)`;
 
         container.appendChild(item);
+
     }
+
 }
 
 
-/* EXPORT CSV */
+/* CSV EXPORT */
 
 function exportCSV() {
 
     if (students.length === 0) {
 
-        alert("No student data available to export.");
+        alert("No student data available.");
 
         return;
+
     }
+
 
     let csv =
         "Student ID,Student Name,Department\n";
+
 
     students.forEach(student => {
 
@@ -626,10 +892,13 @@ function exportCSV() {
 
     });
 
+
     const blob =
-        new Blob([csv], {
-            type: "text/csv;charset=utf-8;"
-        });
+        new Blob(
+            [csv],
+            { type: "text/csv;charset=utf-8;" }
+        );
+
 
     const url =
         URL.createObjectURL(blob);
@@ -645,24 +914,26 @@ function exportCSV() {
     link.click();
 
     URL.revokeObjectURL(url);
+
 }
 
 
-/* Update dashboard whenever students change */
+/* CLEAR FORM */
 
-const oldDisplayStudents = displayStudents;
+function clearForm() {
 
-displayStudents = function() {
+    document.getElementById("studentId")
+        .value = "";
 
-    oldDisplayStudents();
+    document.getElementById("studentName")
+        .value = "";
 
-    updateDepartmentStats();
-};
+    document.getElementById("studentDept")
+        .value = "";
 
-updateDepartmentStats();
+}
 
 </script>
 
 </body>
-    
 </html>
