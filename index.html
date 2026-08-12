@@ -545,6 +545,124 @@ function clearForm() {
 displayStudents();
 
 </script>
+    <!-- Dashboard -->
+<div class="card">
+    <h2>📊 Department Dashboard</h2>
+    <div id="departmentStats"></div>
+
+    <br>
+
+    <button class="add-btn" onclick="exportCSV()">
+        📥 Export Student Data
+    </button>
+</div>
+
+<script>
+
+function updateDepartmentStats() {
+
+    const stats = {};
+
+    students.forEach(student => {
+
+        const dept = student.dept.toUpperCase();
+
+        if (stats[dept]) {
+            stats[dept]++;
+        } else {
+            stats[dept] = 1;
+        }
+
+    });
+
+    const container =
+        document.getElementById("departmentStats");
+
+    container.innerHTML = "";
+
+    if (Object.keys(stats).length === 0) {
+
+        container.innerHTML =
+            "<p>No department data available.</p>";
+
+        return;
+    }
+
+    for (const dept in stats) {
+
+        const item = document.createElement("div");
+
+        item.style.padding = "12px";
+        item.style.marginBottom = "8px";
+        item.style.background = "#eff6ff";
+        item.style.borderRadius = "8px";
+
+        item.innerHTML =
+            `<strong>${dept}</strong> : ${stats[dept]} student(s)`;
+
+        container.appendChild(item);
+    }
+}
+
+
+/* EXPORT CSV */
+
+function exportCSV() {
+
+    if (students.length === 0) {
+
+        alert("No student data available to export.");
+
+        return;
+    }
+
+    let csv =
+        "Student ID,Student Name,Department\n";
+
+    students.forEach(student => {
+
+        csv +=
+            `"${student.id}","${student.name}","${student.dept}"\n`;
+
+    });
+
+    const blob =
+        new Blob([csv], {
+            type: "text/csv;charset=utf-8;"
+        });
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        "student-data.csv";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+
+
+/* Update dashboard whenever students change */
+
+const oldDisplayStudents = displayStudents;
+
+displayStudents = function() {
+
+    oldDisplayStudents();
+
+    updateDepartmentStats();
+};
+
+updateDepartmentStats();
+
+</script>
 
 </body>
+    
 </html>
