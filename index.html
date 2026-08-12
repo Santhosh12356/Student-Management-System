@@ -1,40 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Management System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2937;
+}
+
+header {
+    background: #2563eb;
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 28px;
+}
+
+header p {
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 12px;
+}
+
+input {
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.add-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.add-btn:hover {
+    background: #1d4ed8;
+}
+
+.search {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #eff6ff;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    padding: 8px 12px;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #6b7280;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.stat h3 {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.stat p {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #2563eb;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #6b7280;
+}
+
+@media (max-width: 700px) {
+    .form {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    th, td {
+        white-space: nowrap;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <h1>Student Management System</h1>
+<header>
+    <h1>🎓 Student Management System</h1>
+    <p>Manage student records easily</p>
+</header>
 
-    <input type="text" id="studentName" placeholder="Enter student name">
-    <input type="text" id="studentDept" placeholder="Enter department">
-    <button onclick="addStudent()">Add Student</button>
+<div class="container">
 
-    <h2>Student List</h2>
-    <ul id="studentList"></ul>
+    <div class="stats">
+        <div class="stat">
+            <h3>Total Students</h3>
+            <p id="totalStudents">0</p>
+        </div>
 
-    <script>
-        function addStudent() {
-            const name = document.getElementById("studentName").value;
-            const dept = document.getElementById("studentDept").value;
+        <div class="stat">
+            <h3>System Status</h3>
+            <p>Active</p>
+        </div>
+    </div>
 
-            if (name === "" || dept === "") {
-                alert("Please enter all details");
-                return;
-            }
+    <div class="card">
+        <h2>➕ Add Student</h2>
 
-            const li = document.createElement("li");
-            li.textContent = name + " - " + dept;
+        <div class="form">
+            <input type="text" id="studentId" placeholder="Student ID">
+            <input type="text" id="studentName" placeholder="Student Name">
+            <input type="text" id="studentDept" placeholder="Department">
 
-            document.getElementById("studentList").appendChild(li);
+            <button class="add-btn" onclick="addStudent()">
+                Add Student
+            </button>
+        </div>
+    </div>
 
-            document.getElementById("studentName").value = "";
-            document.getElementById("studentDept").value = "";
-        }
-    </script>
+    <div class="card">
+        <h2>📋 Student Records</h2>
+
+        <input
+            class="search"
+            type="text"
+            id="search"
+            placeholder="🔍 Search student..."
+            onkeyup="displayStudents()"
+        >
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable"></tbody>
+            </table>
+        </div>
+
+        <div id="emptyMessage" class="empty">
+            No students added yet.
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Student Management System © 2026
+</footer>
+
+<script>
+
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+function addStudent() {
+
+    const id = document.getElementById("studentId").value.trim();
+    const name = document.getElementById("studentName").value.trim();
+    const dept = document.getElementById("studentDept").value.trim();
+
+    if (id === "" || name === "" || dept === "") {
+        alert("Please enter all student details.");
+        return;
+    }
+
+    students.push({
+        id: id,
+        name: name,
+        dept: dept
+    });
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    document.getElementById("studentId").value = "";
+    document.getElementById("studentName").value = "";
+    document.getElementById("studentDept").value = "";
+
+    displayStudents();
+}
+
+function deleteStudent(index) {
+
+    if (confirm("Are you sure you want to delete this student?")) {
+
+        students.splice(index, 1);
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+        displayStudents();
+    }
+}
+
+function displayStudents() {
+
+    const table = document.getElementById("studentTable");
+    const emptyMessage = document.getElementById("emptyMessage");
+    const search = document.getElementById("search").value.toLowerCase();
+
+    table.innerHTML = "";
+
+    const filteredStudents = students.filter(student =>
+        student.id.toLowerCase().includes(search) ||
+        student.name.toLowerCase().includes(search) ||
+        student.dept.toLowerCase().includes(search)
+    );
+
+    document.getElementById("totalStudents").textContent = students.length;
+
+    if (filteredStudents.length === 0) {
+        emptyMessage.style.display = "block";
+        return;
+    }
+
+    emptyMessage.style.display = "none";
+
+    filteredStudents.forEach((student) => {
+
+        const originalIndex = students.indexOf(student);
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.dept}</td>
+            <td>
+                <button
+                    class="delete-btn"
+                    onclick="deleteStudent(${originalIndex})">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        table.appendChild(row);
+    });
+}
+
+displayStudents();
+
+</script>
 
 </body>
 </html>
