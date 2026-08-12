@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+</head>
+<body>
+
+    <h1>Student Management System</h1>
+
+    <input type="text" id="studentName" placeholder="Enter student name">
+    <input type="text" id="studentDept" placeholder="Enter department">
+    <button onclick="addStudent()">Add Student</button>
+
+    <h2>Student List</h2>
+    <ul id="studentList"></ul>
+
+    <script>
+        function addStudent() {
+            const name = document.getElementById("studentName").value;
+            const dept = document.getElementById("studentDept").value;
+
+            if (name === "" || dept === "") {
+                alert("Please enter all details");
+                return;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = name + " - " + dept;
+
+            document.getElementById("studentList").appendChild(li);
+
+            document.getElementById("studentName").value = "";
+            document.getElementById("studentDept").value = "";
+        }
+    </script>
+
+</body>
+</html>
