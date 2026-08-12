@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Student Management System</title>
 
 <style>
@@ -31,7 +32,6 @@ header h1 {
 
 header p {
     margin-top: 8px;
-    opacity: 0.9;
 }
 
 .container {
@@ -68,9 +68,9 @@ input {
 button {
     border: none;
     border-radius: 8px;
-    padding: 13px 18px;
+    padding: 10px 14px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .add-btn {
@@ -78,8 +78,25 @@ button {
     color: white;
 }
 
-.add-btn:hover {
-    background: #1d4ed8;
+.update-btn {
+    background: #16a34a;
+    color: white;
+}
+
+.cancel-btn {
+    background: #6b7280;
+    color: white;
+}
+
+.edit-btn {
+    background: #f59e0b;
+    color: white;
+    margin-right: 5px;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
 }
 
 .search {
@@ -104,16 +121,6 @@ th, td {
 
 th {
     background: #eff6ff;
-}
-
-.delete-btn {
-    background: #ef4444;
-    color: white;
-    padding: 8px 12px;
-}
-
-.delete-btn:hover {
-    background: #dc2626;
 }
 
 .empty {
@@ -155,6 +162,7 @@ footer {
 }
 
 @media (max-width: 700px) {
+
     .form {
         grid-template-columns: 1fr;
     }
@@ -184,6 +192,7 @@ footer {
 <div class="container">
 
     <div class="stats">
+
         <div class="stat">
             <h3>Total Students</h3>
             <p id="totalStudents">0</p>
@@ -193,23 +202,53 @@ footer {
             <h3>System Status</h3>
             <p>Active</p>
         </div>
+
     </div>
 
     <div class="card">
-        <h2>➕ Add Student</h2>
+
+        <h2 id="formTitle">➕ Add Student</h2>
 
         <div class="form">
-            <input type="text" id="studentId" placeholder="Student ID">
-            <input type="text" id="studentName" placeholder="Student Name">
-            <input type="text" id="studentDept" placeholder="Department">
 
-            <button class="add-btn" onclick="addStudent()">
+            <input
+                type="text"
+                id="studentId"
+                placeholder="Student ID">
+
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Student Name">
+
+            <input
+                type="text"
+                id="studentDept"
+                placeholder="Department">
+
+            <button
+                id="mainButton"
+                class="add-btn"
+                onclick="saveStudent()">
                 Add Student
             </button>
+
         </div>
+
+        <br>
+
+        <button
+            id="cancelButton"
+            class="cancel-btn"
+            onclick="cancelEdit()"
+            style="display:none;">
+            Cancel Edit
+        </button>
+
     </div>
 
     <div class="card">
+
         <h2>📋 Student Records</h2>
 
         <input
@@ -217,11 +256,12 @@ footer {
             type="text"
             id="search"
             placeholder="🔍 Search student..."
-            onkeyup="displayStudents()"
-        >
+            onkeyup="displayStudents()">
 
         <div class="table-container">
+
             <table>
+
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -232,12 +272,15 @@ footer {
                 </thead>
 
                 <tbody id="studentTable"></tbody>
+
             </table>
+
         </div>
 
         <div id="emptyMessage" class="empty">
             No students added yet.
         </div>
+
     </div>
 
 </div>
@@ -248,33 +291,149 @@ footer {
 
 <script>
 
-let students = JSON.parse(localStorage.getItem("students")) || [];
+let students = JSON.parse(
+    localStorage.getItem("students")
+) || [];
 
-function addStudent() {
+let editingIndex = -1;
 
-    const id = document.getElementById("studentId").value.trim();
-    const name = document.getElementById("studentName").value.trim();
-    const dept = document.getElementById("studentDept").value.trim();
+
+/* SAVE / UPDATE STUDENT */
+
+function saveStudent() {
+
+    const id = document
+        .getElementById("studentId")
+        .value.trim();
+
+    const name = document
+        .getElementById("studentName")
+        .value.trim();
+
+    const dept = document
+        .getElementById("studentDept")
+        .value.trim();
 
     if (id === "" || name === "" || dept === "") {
+
         alert("Please enter all student details.");
+
         return;
     }
 
-    students.push({
-        id: id,
-        name: name,
-        dept: dept
-    });
 
-    localStorage.setItem("students", JSON.stringify(students));
+    /* UPDATE */
 
-    document.getElementById("studentId").value = "";
-    document.getElementById("studentName").value = "";
-    document.getElementById("studentDept").value = "";
+    if (editingIndex !== -1) {
+
+        students[editingIndex] = {
+            id: id,
+            name: name,
+            dept: dept
+        };
+
+        alert("Student updated successfully!");
+
+        editingIndex = -1;
+
+        document.getElementById("formTitle").textContent =
+            "➕ Add Student";
+
+        document.getElementById("mainButton").textContent =
+            "Add Student";
+
+        document.getElementById("mainButton").className =
+            "add-btn";
+
+        document.getElementById("cancelButton").style.display =
+            "none";
+
+    }
+
+    /* ADD */
+
+    else {
+
+        students.push({
+            id: id,
+            name: name,
+            dept: dept
+        });
+
+        alert("Student added successfully!");
+    }
+
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
+
+    clearForm();
 
     displayStudents();
 }
+
+
+/* EDIT STUDENT */
+
+function editStudent(index) {
+
+    const student = students[index];
+
+    document.getElementById("studentId").value =
+        student.id;
+
+    document.getElementById("studentName").value =
+        student.name;
+
+    document.getElementById("studentDept").value =
+        student.dept;
+
+    editingIndex = index;
+
+    document.getElementById("formTitle").textContent =
+        "✏️ Edit Student";
+
+    document.getElementById("mainButton").textContent =
+        "Update Student";
+
+    document.getElementById("mainButton").className =
+        "update-btn";
+
+    document.getElementById("cancelButton").style.display =
+        "inline-block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* CANCEL EDIT */
+
+function cancelEdit() {
+
+    editingIndex = -1;
+
+    clearForm();
+
+    document.getElementById("formTitle").textContent =
+        "➕ Add Student";
+
+    document.getElementById("mainButton").textContent =
+        "Add Student";
+
+    document.getElementById("mainButton").className =
+        "add-btn";
+
+    document.getElementById("cancelButton").style.display =
+        "none";
+}
+
+
+/* DELETE STUDENT */
 
 function deleteStudent(index) {
 
@@ -291,51 +450,97 @@ function deleteStudent(index) {
     }
 }
 
+
+/* DISPLAY STUDENTS */
+
 function displayStudents() {
 
-    const table = document.getElementById("studentTable");
-    const emptyMessage = document.getElementById("emptyMessage");
-    const search = document.getElementById("search").value.toLowerCase();
+    const table =
+        document.getElementById("studentTable");
+
+    const emptyMessage =
+        document.getElementById("emptyMessage");
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
 
     table.innerHTML = "";
 
-    const filteredStudents = students.filter(student =>
-        student.id.toLowerCase().includes(search) ||
-        student.name.toLowerCase().includes(search) ||
-        student.dept.toLowerCase().includes(search)
-    );
+    const filteredStudents =
+        students.filter(student =>
+            student.id.toLowerCase().includes(search) ||
+            student.name.toLowerCase().includes(search) ||
+            student.dept.toLowerCase().includes(search)
+        );
 
-    document.getElementById("totalStudents").textContent = students.length;
+    document.getElementById("totalStudents")
+        .textContent = students.length;
+
 
     if (filteredStudents.length === 0) {
+
         emptyMessage.style.display = "block";
+
         return;
     }
 
     emptyMessage.style.display = "none";
 
-    filteredStudents.forEach((student) => {
 
-        const originalIndex = students.indexOf(student);
+    filteredStudents.forEach(student => {
 
-        const row = document.createElement("tr");
+        const originalIndex =
+            students.indexOf(student);
+
+        const row =
+            document.createElement("tr");
 
         row.innerHTML = `
+
             <td>${student.id}</td>
+
             <td>${student.name}</td>
+
             <td>${student.dept}</td>
+
             <td>
+
+                <button
+                    class="edit-btn"
+                    onclick="editStudent(${originalIndex})">
+                    Edit
+                </button>
+
                 <button
                     class="delete-btn"
                     onclick="deleteStudent(${originalIndex})">
                     Delete
                 </button>
+
             </td>
         `;
 
         table.appendChild(row);
+
     });
 }
+
+
+/* CLEAR FORM */
+
+function clearForm() {
+
+    document.getElementById("studentId").value = "";
+
+    document.getElementById("studentName").value = "";
+
+    document.getElementById("studentDept").value = "";
+}
+
+
+/* INITIAL LOAD */
 
 displayStudents();
 
